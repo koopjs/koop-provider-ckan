@@ -59,29 +59,33 @@ var ckan = function( koop ){
           if (err) {
             callback(err, null);
           } else {
-            var result = JSON.parse(response).result,
-              item_url;
-            if ( result ){
-              for (var i = 0; i < result.resources.length; i++){
-                if (result.resources[i].format == 'CSV'){
-                  item_url = result.resources[i].url;
+            try {
+              var result = JSON.parse(response).result,
+                item_url;
+              if ( result ){
+                for (var i = 0; i < result.resources.length; i++){
+                  if (result.resources[i].format == 'CSV'){
+                    item_url = result.resources[i].url;
+                  }
                 }
-              }
-              if ( item_url ){
-                request.get(item_url, function(err, data, res){
-                  csv.parse( res, function(err, csv_data){
-                    koop.GeoJSON.fromCSV( csv_data, function(err, geojson){
-                      koop.Cache.insert( type, key, geojson, 0, function( err, success){
-                        if ( success ) callback( null, [geojson] );
-                      }); 
+                if ( item_url ){
+                  request.get(item_url, function(err, data, res){
+                    csv.parse( res, function(err, csv_data){
+                      koop.GeoJSON.fromCSV( csv_data, function(err, geojson){
+                        koop.Cache.insert( type, key, geojson, 0, function( err, success){
+                          if ( success ) callback( null, [geojson] );
+                        }); 
+                      });
                     });
                   });
-                });
+                } else {
+                  callback('no CSV resources found', null);
+                }
               } else {
                 callback('no CSV resources found', null);
               }
-            } else {
-              callback('no CSV resources found', null);
+            } catch(e){
+              callback('Resource not found', null);
             }
           }
         });
