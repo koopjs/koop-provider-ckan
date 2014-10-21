@@ -63,6 +63,23 @@ var Controller = function( ckan ){
     });
   };
 
+  controller.listall = function(req, res){
+    ckan.find(req.params.id, function(err, data){
+      if (err) {
+        res.send( err, 500);
+      } else {
+        // Get the item 
+        ckan.getAll( data.host, req.query, function( error, list ){
+          if (error) {
+            res.send( error, 500 );
+          } else {
+            res.json( list );
+          }
+        });
+      }
+    });
+  };
+
   controller.findResource = function(req, res){
     ckan.find(req.params.id, function(err, data){
       if (err) {

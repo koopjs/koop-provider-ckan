@@ -1,7 +1,7 @@
 module.exports = {
   'post /ckan': 'register',
   'get /ckan': 'list',
-  'get /ckan/:id': 'find',
+  'get /ckan/:id': 'listall',
   'get /ckan/:id/:item.:format': 'findResource',
   'get /ckan/:id/:item': 'findResource',
   'post /ckan/:id/:item': 'findResource',

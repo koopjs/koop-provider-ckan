@@ -29,6 +29,22 @@ var ckan = function( koop ){
   };
 
   ckan.ckan_path = '/api/3/action/package_show';
+  ckan.ckan_list_path = '/api/3/action/package_list';
+
+  ckan.getAll = function( host, options, callback ){
+    var self = this;
+
+    var url = host + self.ckan_list_path,
+      result, links = [];
+    request.get(url, function(err, data, response ){
+      if (err) {
+        callback(err, null);
+      } else {
+        result = JSON.parse(response).result;
+        callback( null, result );
+      }
+    });
+  };
 
   // got the service and get the item
   ckan.getResource = function( host, id, options, callback ){
