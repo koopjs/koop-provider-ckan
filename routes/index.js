@@ -1,0 +1,19 @@
+module.exports = {
+  'post /ckan': 'register',
+  'get /ckan': 'list',
+  'get /ckan/:id': 'find',
+  'get /ckan/:id/:item.:format': 'findResource',
+  'get /ckan/:id/:item': 'findResource',
+  'post /ckan/:id/:item': 'findResource',
+  'get /ckan/:id/:item/FeatureServer/:layer/:method': 'featureserver',
+  'get /ckan/:id/:item/FeatureServer/:layer': 'featureserver',
+  'get /ckan/:id/:item/FeatureServer': 'featureserver',
+  'post /ckan/:id/:item/FeatureServer/:layer/:method': 'featureserver',
+  'post /ckan/:id/:item/FeatureServer/:layer': 'featureserver',
+  'post /ckan/:id/:item/FeatureServer': 'featureserver',
+  'get /ckan/:id/:item/thumbnail': 'thumbnail',
+  'get /ckan/:id/:item/tiles/:z/:x/:y.:format': 'tiles',
+  'delete /ckan/:id': 'del',
+  'get /ckan/:id/:item/preview': 'preview',
+  'get /ckan/:id/:item/drop': 'drop'
+}
