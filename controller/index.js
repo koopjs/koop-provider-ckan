@@ -159,6 +159,7 @@ var Controller = function( ckan ){
             // pass to the shared logic for FeatureService routing
             delete req.query.geometry;
             delete req.query.where;
+            req.query.idField = req.query.idField || 'id';
             controller.processFeatureServer( req, res, err, geojson, callback);
           }
         });
