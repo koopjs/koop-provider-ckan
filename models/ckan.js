@@ -1,11 +1,10 @@
 var request = require('request'),
-  csv = require('csv'),
-  BaseModel = require('koop-server/lib/BaseModel.js');
+  csv = require('csv');
 
 var ckan = function( koop ){
 
   var ckan = {};
-  ckan.__proto__ = BaseModel( koop );
+  ckan.__proto__ = koop.BaseModel( koop );
 
   // adds a service to the koop.Cache.db
   // needs a host, generates an id 
