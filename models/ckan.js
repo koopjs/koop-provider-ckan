@@ -7,7 +7,7 @@ var ckan = function( koop ){
   ckan.__proto__ = koop.BaseModel( koop );
 
   // adds a service to the koop.Cache.db
-  // needs a host, generates an id 
+  // needs a host, generates an id
   ckan.register = function( id, host, callback ){
     var type = 'ckan:services';
     koop.Cache.db.serviceCount( type, function(error, count){
@@ -20,11 +20,17 @@ var ckan = function( koop ){
 
   ckan.remove = function( id, callback ){
     koop.Cache.db.serviceRemove( 'ckan:services', parseInt(id) || id,  callback);
-  }; 
+  };
 
   // get service by id, no id == return all
-  ckan.find = function( id, callback ){
-    koop.Cache.db.serviceGet( 'ckan:services', parseInt(id) || id, callback);
+  ckan.find = function(id, callback) {
+    koop.Cache.db.serviceGet('ckan:services', parseInt(id) || id, function(err, res) {
+      if (err) {
+        callback('No datastores have been registered with this provider yet. Try POSTing {"host":"url", "id":"yourId"} to /ckan', null);
+      } else {
+        callback(null, res);
+      }
+    });
   };
 
   ckan.ckan_path = '/api/3/action/package_show';
@@ -49,7 +55,7 @@ var ckan = function( koop ){
   ckan.getResource = function( host, id, options, callback ){
     var self = this,
       type = 'ckan',
-      key = [host,id].join('::'); 
+      key = [host,id].join('::');
 
     koop.Cache.get( type, key, options, function(err, entry ){
       if ( err ){
@@ -73,7 +79,7 @@ var ckan = function( koop ){
                       koop.GeoJSON.fromCSV( csv_data, function(err, geojson){
                         koop.Cache.insert( type, key, geojson, 0, function( err, success){
                           if ( success ) callback( null, [geojson] );
-                        }); 
+                        });
                       });
                     });
                   });
@@ -105,7 +111,7 @@ var ckan = function( koop ){
     var lapsed = (new Date().getTime() - data.updated_at);
     if (typeof(data.updated_at) == "undefined" || (lapsed > (1000*60*60))){
       callback(null, false);
-    } else { 
+    } else {
       request.get(url, function( err, data, response ){
         if (err) {
           callback( err, null );
@@ -146,7 +152,7 @@ var ckan = function( koop ){
   return ckan;
 
 };
-  
+
 
 module.exports = ckan;
-  
+
