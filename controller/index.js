@@ -85,7 +85,7 @@ var Controller = function( ckan, BaseController ){
         res.send( err, 500);
       } else {
         // Get the item 
-        ckan.getResource( data.host, req.params.item, req.query, function(error, itemJson){
+        ckan.getResource( data.host, req.params.id, req.params.item, req.query, function(error, itemJson){
           if (error) {
             res.send( error, 500);
           } else if ( req.params.format ) {

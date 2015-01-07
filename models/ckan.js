@@ -52,10 +52,10 @@ var ckan = function( koop ){
   };
 
   // got the service and get the item
-  ckan.getResource = function( host, id, options, callback ){
+  ckan.getResource = function( host, hostId, id, options, callback ){
     var self = this,
       type = 'ckan',
-      key = [host,id].join('::');
+      key = id;
 
     koop.Cache.get( type, key, options, function(err, entry ){
       if ( err ){
@@ -77,6 +77,12 @@ var ckan = function( koop ){
                   request.get(item_url, function(err, data, res){
                     csv.parse( res, function(err, csv_data){
                       koop.GeoJSON.fromCSV( csv_data, function(err, geojson){
+                        geojson.updated_at = Date.now();
+                        geojson.name = key;
+                        geojson.host = {
+                          url: host,
+                          id: hostId
+                        };
                         koop.Cache.insert( type, key, geojson, 0, function( err, success){
                           if ( success ) callback( null, [geojson] );
                         });
@@ -138,7 +144,7 @@ var ckan = function( koop ){
    // drops the item from the cache
   ckan.dropItem = function( host, itemId, options, callback ){
     var dir = [ 'ckan', host, itemId].join(':');
-    koop.Cache.remove('ckan:'+host+':', itemId, options, function(err, res){
+    koop.Cache.remove('ckan:', itemId, options, function(err, res){
       koop.files.removeDir( 'files/' + dir, function(err, res){
         koop.files.removeDir( 'tiles/'+ dir, function(err, res){
           koop.files.removeDir( 'thumbs/'+ dir, function(err, res){
