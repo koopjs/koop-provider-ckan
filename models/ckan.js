@@ -79,9 +79,9 @@ var ckan = function( koop ){
                       koop.GeoJSON.fromCSV( csv_data, function(err, geojson){
                         geojson.updated_at = Date.now();
                         geojson.name = key;
-                        geojson.host = {
-                          url: host,
-                          id: hostId
+                        geojson.host = { 
+                          id: hostId,
+                          url: host
                         };
                         koop.Cache.insert( type, key, geojson, 0, function( err, success){
                           if ( success ) callback( null, [geojson] );
@@ -144,7 +144,7 @@ var ckan = function( koop ){
    // drops the item from the cache
   ckan.dropItem = function( host, itemId, options, callback ){
     var dir = [ 'ckan', host, itemId].join(':');
-    koop.Cache.remove('ckan:', itemId, options, function(err, res){
+    koop.Cache.remove('ckan', itemId, options, function(err, res){
       koop.files.removeDir( 'files/' + dir, function(err, res){
         koop.files.removeDir( 'tiles/'+ dir, function(err, res){
           koop.files.removeDir( 'thumbs/'+ dir, function(err, res){

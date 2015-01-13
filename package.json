@@ -1,6 +1,6 @@
 {
   "name": "koop-ckan",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A ckan wrapper for koop",
   "main": "index.js",
   "directories": {
