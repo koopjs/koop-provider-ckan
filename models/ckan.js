@@ -84,7 +84,12 @@ var ckan = function( koop ){
                           url: host
                         };
                         koop.Cache.insert( type, key, geojson, 0, function( err, success){
-                          if ( success ) callback( null, [geojson] );
+                          if ( err ) {
+                            return callback( err, null );
+                          }
+                          else if ( success ) {
+                            callback( null, [geojson] );
+                          }
                         });
                       });
                     });
