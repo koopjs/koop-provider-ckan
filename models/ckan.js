@@ -35,6 +35,7 @@ var ckan = function( koop ){
 
   ckan.ckan_path = '/api/3/action/package_show';
   ckan.ckan_list_path = '/api/3/action/package_list';
+  ckan.ckan_dump_path = '/datastore/dump';
 
   ckan.getAll = function( host, options, callback ){
     var self = this;
@@ -70,7 +71,8 @@ var ckan = function( koop ){
               if ( result ){
                 for (var i = 0; i < result.resources.length; i++){
                   if (result.resources[i].format == 'CSV'){
-                    item_url = result.resources[i].url;
+                    //item_url = result.resources[i].url;
+                    item_url = host + self.ckan_dump_path + '/' + result.resources[i].id;
                   }
                 }
                 if ( item_url ){
