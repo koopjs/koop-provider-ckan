@@ -3,6 +3,11 @@ var sm = require('sphericalmercator'),
   fs = require('fs'),
   crypto = require('crypto');
 
+var ejs = require('ejs');
+var templatePath = require.resolve(__dirname+'/../views/demo.ejs');
+var template = fs.readFileSync(templatePath).toString();
+
+
 // a function that is given an instance of Koop at init
 var Controller = function( ckan, BaseController ){
 
@@ -292,7 +297,9 @@ var Controller = function( ckan, BaseController ){
 
   
   controller.preview = function(req, res){
-    res.render(__dirname + '/../views/demo', { locals:{ host: req.params.id, item: req.params.item } });
+    var html = ejs.render(template, { locals:{ host: req.params.id, item: req.params.item } });
+    res.write(html);
+    res.end();
   };
 
   return controller;
