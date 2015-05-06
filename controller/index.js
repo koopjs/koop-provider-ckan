@@ -92,7 +92,7 @@ var Controller = function( ckan, BaseController ){
         // Get the item 
         ckan.getResource( data.host, req.params.id, req.params.item, req.query, function(error, itemJson){
           if (error) {
-            res.send( error, 500);
+            res.status(error.code || 500).send( error.message || error);
           } else if ( req.params.format ) {
             // change geojson to json
             req.params.format = req.params.format.replace('geojson', 'json');

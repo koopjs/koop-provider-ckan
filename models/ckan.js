@@ -77,6 +77,12 @@ var ckan = function( koop ){
                 }
                 if ( item_url ){
                   request.get(item_url, function(err, data, res){
+                    if (data && data.statusCode !== 200){
+                      return callback({
+                        code: data.statusCode, 
+                        message: 'Unable to retrieve data from ' + item_url
+                      }, null);
+                    }
                     csv.parse( res, function(err, csv_data){
                       koop.GeoJSON.fromCSV( csv_data, function(err, geojson){
                         geojson.updated_at = Date.now();
