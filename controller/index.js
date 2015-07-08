@@ -66,6 +66,23 @@ var Controller = function( ckan, BaseController ){
       }
     });
   };
+  
+  controller.odata = function(req, res) {
+    ckan.find(req.params.id, function(err, data){
+      if (err) {
+        res.send( err, 500);
+      } else {
+        // Get the item 
+        ckan.getResource( data.host, req.params.id, req.params.item, req.query, function(error, geojson){
+          if (error) {
+            res.send( error, 500);
+          } else {
+            res.json(geojson);
+          }
+        });
+      }
+    });
+  };
 
   controller.listall = function(req, res){
     ckan.find(req.params.id, function(err, data){
