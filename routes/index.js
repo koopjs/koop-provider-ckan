@@ -14,7 +14,7 @@ module.exports = {
   'get /ckan/:id/:item/thumbnail': 'thumbnail',
   'get /ckan/:id/:item/tiles/:z/:x/:y.:format': 'tiles',
   'delete /ckan/:id': 'del',
-  'get /ckan/:id/:item/preview': 'preview',
-  'get /ckan/:id/:item/drop': 'drop',
+  /*'get /ckan/:id/:item/preview': 'preview',
+  'get /ckan/:id/:item/drop': 'drop'*/
   'get /ckan/:id/:item/odata': 'odata'
 }

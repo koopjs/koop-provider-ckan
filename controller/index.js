@@ -66,24 +66,36 @@ var Controller = function( ckan, BaseController ){
       }
     });
   };
-  
-  controller.odata = function(req, res) {
+ 
+
+  controller.odata = function( req, res ){
+    if( ckan.koop.odata === undefined ) {
+      return;
+    }
+    // Pass req.query to OData plugin to be modified before the normal ckan.find()
+    req.query = ckan.koop.odata.parse(req.query);
+
     ckan.find(req.params.id, function(err, data){
       if (err) {
         res.send( err, 500);
       } else {
-        // Get the item 
+        // Get the item
         ckan.getResource( data.host, req.params.id, req.params.item, req.query, function(error, geojson){
           if (error) {
             res.send( error, 500);
           } else {
-            res.json(geojson);
+            // Pass geojson to OData plugin to be modified before the normal output
+            geojson = ckan.koop.odata.output(geojson[0]);
+            // Set content-type to xml (should probably be done by odata plugin)
+            res.type('xml');
+            res.send( geojson );
           }
         });
       }
     });
-  };
 
+  };
+ 
   controller.listall = function(req, res){
     ckan.find(req.params.id, function(err, data){
       if (err) {
