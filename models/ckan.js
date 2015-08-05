@@ -5,7 +5,6 @@ var ckan = function( koop ){
 
   var ckan = {};
   ckan.__proto__ = koop.BaseModel( koop );
-  ckan.koop = koop;
 
   // adds a service to the koop.Cache.db
   // needs a host, generates an id

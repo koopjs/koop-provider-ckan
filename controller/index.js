@@ -69,11 +69,11 @@ var Controller = function( ckan, BaseController ){
  
 
   controller.odata = function( req, res ){
-    if( ckan.koop.odata === undefined ) {
+    if( ckan.plugin('odata') === undefined ) {
       return;
     }
     // Pass req.query to OData plugin to be modified before the normal ckan.find()
-    req.query = ckan.koop.odata.parse(req.query);
+    req.query = ckan.plugin('odata').parse(req.query);
 
     ckan.find(req.params.id, function(err, data){
       if (err) {
@@ -85,7 +85,7 @@ var Controller = function( ckan, BaseController ){
             res.send( error, 500);
           } else {
             // Pass geojson to OData plugin to be modified before the normal output
-            geojson = ckan.koop.odata.output(geojson[0]);
+            geojson = ckan.plugin('odata').output(geojson[0]);
             // Set content-type to xml (should probably be done by odata plugin)
             res.type('xml');
             res.send( geojson );
