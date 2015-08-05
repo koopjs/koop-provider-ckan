@@ -66,7 +66,7 @@ var Controller = function( ckan, BaseController ){
       }
     });
   };
-
+ 
   controller.listall = function(req, res){
     ckan.find(req.params.id, function(err, data){
       if (err) {
@@ -89,6 +89,12 @@ var Controller = function( ckan, BaseController ){
       if (err) {
         res.send( err, 500);
       } else {
+        // If an interface was specified, pass the query to it to allow it to be modified
+        if(req.params.interface && ckan.plugin(req.params.interface)) {
+          req.query = ckan.plugin(req.params.interface).parse(req.query);
+          console.log(req.query)
+        }
+        
         // Get the item 
         ckan.getResource( data.host, req.params.id, req.params.item, req.query, function(error, itemJson){
           if (error) {
@@ -122,7 +128,14 @@ var Controller = function( ckan, BaseController ){
               }
             });
           } else { 
-            res.json( itemJson[0] );
+            // If an interface was specified, pass the output to it to allow it to be modified
+            var contentType = 'json'
+            if(req.params.interface && ckan.plugin(req.params.interface)) {
+              itemJson[0] = ckan.plugin(req.params.interface).formatOutput(itemJson[0]);
+              contentType = ckan.plugin(req.params.interface).contentType || contentType;
+            }
+            res.type(contentType)
+            res.send( itemJson[0] );
           }
         });
       }
