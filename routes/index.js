@@ -16,5 +16,5 @@ module.exports = {
   'delete /ckan/:id': 'del',
   'get /ckan/:id/:item/preview': 'preview',
   'get /ckan/:id/:item/drop': 'drop',
-  'get /ckan/:id/:item/odata': 'odata'
+  'get /ckan/:id/:item/:interface': 'findResource'
 }

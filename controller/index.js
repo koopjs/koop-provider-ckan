@@ -67,35 +67,6 @@ var Controller = function( ckan, BaseController ){
     });
   };
  
-
-  controller.odata = function( req, res ){
-    if( ckan.plugin('odata') === undefined ) {
-      return;
-    }
-    // Pass req.query to OData plugin to be modified before the normal ckan.find()
-    req.query = ckan.plugin('odata').parse(req.query);
-
-    ckan.find(req.params.id, function(err, data){
-      if (err) {
-        res.send( err, 500);
-      } else {
-        // Get the item
-        ckan.getResource( data.host, req.params.id, req.params.item, req.query, function(error, geojson){
-          if (error) {
-            res.send( error, 500);
-          } else {
-            // Pass geojson to OData plugin to be modified before the normal output
-            geojson = ckan.plugin('odata').output(geojson[0]);
-            // Set content-type to xml (should probably be done by odata plugin)
-            res.type('xml');
-            res.send( geojson );
-          }
-        });
-      }
-    });
-
-  };
- 
   controller.listall = function(req, res){
     ckan.find(req.params.id, function(err, data){
       if (err) {
@@ -118,6 +89,12 @@ var Controller = function( ckan, BaseController ){
       if (err) {
         res.send( err, 500);
       } else {
+        // If an interface was specified, pass the query to it to allow it to be modified
+        if(req.params.interface && ckan.plugin(req.params.interface)) {
+          req.query = ckan.plugin(req.params.interface).parse(req.query);
+          console.log(req.query)
+        }
+        
         // Get the item 
         ckan.getResource( data.host, req.params.id, req.params.item, req.query, function(error, itemJson){
           if (error) {
@@ -151,7 +128,14 @@ var Controller = function( ckan, BaseController ){
               }
             });
           } else { 
-            res.json( itemJson[0] );
+            // If an interface was specified, pass the output to it to allow it to be modified
+            var contentType = 'json'
+            if(req.params.interface && ckan.plugin(req.params.interface)) {
+              itemJson[0] = ckan.plugin(req.params.interface).formatOutput(itemJson[0]);
+              contentType = ckan.plugin(req.params.interface).contentType || contentType;
+            }
+            res.type(contentType)
+            res.send( itemJson[0] );
           }
         });
       }
