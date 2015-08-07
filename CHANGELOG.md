@@ -12,7 +12,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * catching all uncaught errors
 
 ### Removed
-* outdated config and bad tests
+* outdated `config/` dir
+* invalid tests (copied from koop-socrata)
 
 ## [0.0.9] - 2015-05-06
 ### Changed
