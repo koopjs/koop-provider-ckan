@@ -6,11 +6,21 @@ var ejs = require('ejs')
 var templatePath = require.resolve(__dirname + '/../views/demo.ejs')
 var template = fs.readFileSync(templatePath).toString()
 
-// a function that is given an instance of Koop at init
-function Controller (ckan, BaseController) {
+/**
+ * controller for interacting with CKAN services
+ *
+ * @param {object} ckan - model
+ * @param {object} BaseController - koop/lib/BaseController (a bad)
+ */
+function CkanController (ckan, BaseController) {
   var controller = BaseController()
 
-  // register a ckan instance
+  /**
+   * route for registering a host
+   *
+   * @param {object} req - request object
+   * @param {object} res - response object
+   */
   controller.register = function (req, res) {
     if (!req.body.host) return res.status(500).send('Must provide a host to register')
 
@@ -21,6 +31,12 @@ function Controller (ckan, BaseController) {
     })
   }
 
+  /**
+   * route for listing all registered hosts
+   *
+   * @param {object} req - request object
+   * @param {object} res - response object
+   */
   controller.list = function (req, res) {
     ckan.find(null, function (err, data) {
       if (err) return res.status(500).send(err)
@@ -29,6 +45,12 @@ function Controller (ckan, BaseController) {
     })
   }
 
+  /**
+   * route for returning a registered host's information
+   *
+   * @param {object} req - request object
+   * @param {object} res - response object
+   */
   controller.find = function (req, res) {
     ckan.find(req.params.id, function (err, data) {
       if (err) return res.status(404).send(err)
@@ -37,7 +59,12 @@ function Controller (ckan, BaseController) {
     })
   }
 
-  // drops the cache for an item
+  /**
+   * route for dropping an item from the cache
+   *
+   * @param {object} req - request object
+   * @param {object} res - response object
+   */
   controller.drop = function (req, res) {
     ckan.find(req.params.id, function (err, data) {
       if (err) return res.status(500).send(err)
@@ -50,6 +77,12 @@ function Controller (ckan, BaseController) {
     })
   }
 
+  /**
+   * route for listing all items from a registered host
+   *
+   * @param {object} req - request object
+   * @param {object} res - response object
+   */
   controller.listall = function (req, res) {
     ckan.find(req.params.id, function (err, data) {
       if (err) return res.status(500).send(err)
@@ -62,6 +95,12 @@ function Controller (ckan, BaseController) {
     })
   }
 
+  /**
+   * route for fetching an item
+   *
+   * @param {object} req - request object
+   * @param {object} res - response object
+   */
   controller.findResource = function (req, res) {
     ckan.find(req.params.id, function (err, data) {
       if (err) return res.status(500).send(err)
@@ -102,6 +141,12 @@ function Controller (ckan, BaseController) {
     })
   }
 
+  /**
+   * route for removing a registered host from the cache
+   *
+   * @param {object} req - request object
+   * @param {object} res - response object
+   */
   controller.del = function (req, res) {
     if (!req.params.id) return res.status(500).send('Must specify a service id')
 
@@ -112,6 +157,12 @@ function Controller (ckan, BaseController) {
     })
   }
 
+  /**
+   * route for handling featureserver requests
+   *
+   * @param {object} req - request object
+   * @param {object} res - response object
+   */
   controller.featureserver = function (req, res) {
     var callback = req.query.callback
     delete req.query.callback
@@ -135,6 +186,12 @@ function Controller (ckan, BaseController) {
     })
   }
 
+  /**
+   * route for handling tile requests
+   *
+   * @param {object} req - request object
+   * @param {object} res - response object
+   */
   controller.tiles = function (req, res) {
     var callback = req.query.callback
     var layer = req.params.layer || 0
@@ -215,6 +272,12 @@ function Controller (ckan, BaseController) {
 
   }
 
+  /**
+   * route for handling thumbnail requests
+   *
+   * @param {object} req - request object
+   * @param {object} res - response object
+   */
   controller.thumbnail = function (req, res) {
     // check the image first and return if exists
     var key = ['ckan', req.params.id, req.params.item].join(':')
@@ -247,11 +310,22 @@ function Controller (ckan, BaseController) {
 
       })
     }
-
   }
 
+  /**
+   * route for handling preview requests
+   *
+   * @param {object} req - request object
+   * @param {object} res - response object
+   */
   controller.preview = function (req, res) {
-    var html = ejs.render(template, { locals: { host: req.params.id, item: req.params.item } })
+    var html = ejs.render(template, {
+      locals: {
+        host: req.params.id,
+        item: req.params.item
+      }
+    })
+
     res.write(html)
     res.end()
   }
@@ -259,4 +333,4 @@ function Controller (ckan, BaseController) {
   return controller
 }
 
-module.exports = Controller
+module.exports = CkanController

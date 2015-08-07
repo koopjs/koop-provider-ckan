@@ -3,6 +3,7 @@ var csv = require('csv')
 
 /**
  * model for interacting with a CKAN service API
+ *
  * @param {object} koop - instance of koop
  */
 function CkanModel (koop) {
@@ -15,8 +16,8 @@ function CkanModel (koop) {
   /**
    * adds a CKAN service to the cache
    *
-   * @param {string} id - service reference name (optional, defaults to numeric increment)
-   * @param {string} host - web address of CKAN instance (required)
+   * @param {string} id - service reference (optional, defaults to numeric increment)
+   * @param {string} host - web address of CKAN service (required)
    * @param {function} callback
    */
   model.register = function (id, host, callback) {
@@ -38,7 +39,7 @@ function CkanModel (koop) {
   /**
    * removes a CKAN service from the cache
    *
-   * @param {string} id - service reference name
+   * @param {string} id - service reference
    * @param {function} callback
    */
   model.remove = function (id, callback) {
@@ -49,7 +50,7 @@ function CkanModel (koop) {
    * get a CKAN service from the cache by ID
    * returns all services if no ID is specified
    *
-   * @param {string} id - service reference name
+   * @param {string} id - service reference
    * @param {function} callback
    */
   model.find = function (id, callback) {
@@ -64,9 +65,9 @@ function CkanModel (koop) {
   }
 
   /**
-   * get all... somethings... from a CKAN instance
+   * get all... somethings... from a CKAN service
    *
-   * @param {string} host - web address of CKAN instance
+   * @param {string} host - web address of CKAN service
    * @param {object} options - unused
    * @param {function} callback
    */
@@ -86,9 +87,9 @@ function CkanModel (koop) {
    * got the service and get the item
    * TODO: refactor. too many params.
    *
-   * @param {string} host
-   * @param {string} hostId
-   * @param {string} id
+   * @param {string} host - service web address
+   * @param {string} hostId - service reference
+   * @param {string} id - the item ID?
    * @param {object} options
    * @param {function} callback
    */
@@ -167,9 +168,9 @@ function CkanModel (koop) {
    * drops a CKAN resource (item) from the cache
    * TODO: refactor. bad waterfall callback pattern.
    *
-   * @param {string} host
-   * @param {string} itemId
-   * @param {[type]} options
+   * @param {string} host - either the CKAN service address or the service reference, not sure
+   * @param {string} itemId - ID of CKAN resource (item)
+   * @param {object} options - unused
    * @param {Function} callback
    */
   model.dropItem = function (host, itemId, options, callback) {
