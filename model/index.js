@@ -1,12 +1,25 @@
 var request = require('request')
 var csv = require('csv')
 
+/**
+ * model for interacting with a CKAN service API
+ * @param {object} koop - instance of koop
+ */
 function CkanModel (koop) {
-  var ckan = koop.BaseModel(koop)
+  var model = koop.BaseModel(koop)
 
-  // adds a service to the koop.Cache.db
-  // needs a host, generates an id
-  ckan.register = function (id, host, callback) {
+  model.ckan_path = '/api/3/action/package_show'
+  model.ckan_list_path = '/api/3/action/package_list'
+  model.ckan_dump_path = '/datastore/dump'
+
+  /**
+   * adds a CKAN service to the cache
+   *
+   * @param {string} id - service reference name (optional, defaults to numeric increment)
+   * @param {string} host - web address of CKAN instance (required)
+   * @param {function} callback
+   */
+  model.register = function (id, host, callback) {
     var type = 'ckan:services'
 
     koop.Cache.db.serviceCount(type, function (err, count) {
@@ -22,39 +35,64 @@ function CkanModel (koop) {
     })
   }
 
-  ckan.remove = function (id, callback) {
+  /**
+   * removes a CKAN service from the cache
+   *
+   * @param {string} id - service reference name
+   * @param {function} callback
+   */
+  model.remove = function (id, callback) {
     koop.Cache.db.serviceRemove('ckan:services', parseInt(id, 10) || id, callback)
   }
 
-  // get service by id, no id == return all
-  ckan.find = function (id, callback) {
+  /**
+   * get a CKAN service from the cache by ID
+   * returns all services if no ID is specified
+   *
+   * @param {string} id - service reference name
+   * @param {function} callback
+   */
+  model.find = function (id, callback) {
     koop.Cache.db.serviceGet('ckan:services', parseInt(id, 10) || id, function (err, res) {
       if (err) {
-        return callback(new Error('No datastores have been registered with this provider yet. Try POSTing {"host":"url", "id":"yourId"} to /ckan'), null)
+        var msg = 'No datastores have been registered with this provider yet. Try POSTing {"host":"url", "id":"yourId"} to /ckan'
+        return callback(new Error(msg))
       }
 
       callback(null, res)
     })
   }
 
-  ckan.ckan_path = '/api/3/action/package_show'
-  ckan.ckan_list_path = '/api/3/action/package_list'
-  ckan.ckan_dump_path = '/datastore/dump'
-
-  ckan.getAll = function (host, options, callback) {
+  /**
+   * get all... somethings... from a CKAN instance
+   *
+   * @param {string} host - web address of CKAN instance
+   * @param {object} options - unused
+   * @param {function} callback
+   */
+  model.getAll = function (host, options, callback) {
     var self = this
     var url = host + self.ckan_list_path
 
     request.get(url, function (err, data, response) {
-      if (err) return callback(err, null)
+      if (err) return callback(err)
 
       var result = JSON.parse(response).result
       callback(null, result)
     })
   }
 
-  // got the service and get the item
-  ckan.getResource = function (host, hostId, id, options, callback) {
+  /**
+   * got the service and get the item
+   * TODO: refactor. too many params.
+   *
+   * @param {string} host
+   * @param {string} hostId
+   * @param {string} id
+   * @param {object} options
+   * @param {function} callback
+   */
+  model.getResource = function (host, hostId, id, options, callback) {
     var self = this
     var type = 'ckan'
     var key = id
@@ -64,7 +102,7 @@ function CkanModel (koop) {
         var url = host + self.ckan_path + '?id=' + id
 
         request.get(url, function (err, data, response) {
-          if (err) return callback(err, null)
+          if (err) return callback(err)
 
           try {
             var result = JSON.parse(response).result
@@ -123,8 +161,18 @@ function CkanModel (koop) {
 
   }
 
-  // drops the item from the cache
-  ckan.dropItem = function (host, itemId, options, callback) {
+  //
+
+  /**
+   * drops a CKAN resource (item) from the cache
+   * TODO: refactor. bad waterfall callback pattern.
+   *
+   * @param {string} host
+   * @param {string} itemId
+   * @param {[type]} options
+   * @param {Function} callback
+   */
+  model.dropItem = function (host, itemId, options, callback) {
     var dir = ['ckan', host, itemId].join(':')
 
     koop.Cache.remove('ckan', itemId, options, function (err, res) {
@@ -146,7 +194,7 @@ function CkanModel (koop) {
     })
   }
 
-  return ckan
+  return model
 }
 
 module.exports = CkanModel

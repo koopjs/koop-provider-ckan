@@ -5,7 +5,7 @@ var provider = {
   hosts: true,
   controller: require('./controller'),
   routes: require('./routes'),
-  model: require('./models/ckan.js'),
+  model: require('./model'),
   status: {
     version: pkg.version
   }
