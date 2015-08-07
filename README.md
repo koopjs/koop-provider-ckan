@@ -28,9 +28,9 @@ Once this provider's been installed you need to register a particular instance o
 curl --data "host=https://data.nola.gov&id=nola" localhost:1337/ckan
 ```
 
-*for Windows users, download cURL from http://curl.haxx.se/download.html or use a tool of your choice to generate the POST request*
+*For Windows users, download cURL from http://curl.haxx.se/download.html or use a tool of your choice to generate the POST request.*
 
-What you'll need for that request to work is an ID and the URL of the CKAN instance. The ID is what you'll use to reference datasets that come from CKAN in Koop.
+What you'll need for that request to work is an ID for koop to use as a reference and the URL of the CKAN instance. The ID is what you'll use to reference datasets that come from CKAN in Koop.
 
 To make sure this works you can visit `http://localhost:1337/ckan` and you should see all of the registered hosts.
 
@@ -46,7 +46,7 @@ Here's a few examples of data hosted in CKAN and accessed via Koop
 
 * GeoJSON: http://koop.dc.esri.com/ckan/rwlabs/ourairports-ind
 * FeatureService: http://koop.dc.esri.com/ckan/rwlabs/ourairports-ind/FeatureServer/0
-* KML http://koop.dc.esri.com/ckan/rwlabs/ourairports-ind.kml
+* KML: http://koop.dc.esri.com/ckan/rwlabs/ourairports-ind.kml
 * All of the publicly registered ckan instances: http://koop.dc.esri.com/ckan
 
 ## Contributing
