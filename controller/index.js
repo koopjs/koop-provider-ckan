@@ -241,11 +241,16 @@ function CkanController (ckan, BaseController) {
         res.sendfile(file)
       } else {
         fs.readFile(file, function (err, data) {
-          if (callback) {
-            res.send(callback + '(' + JSON.parse(data) + ')')
-          } else {
-            res.json(JSON.parse(data))
+          if (err) {
+            if (callback) return callback(err)
+            return res.status(500).json(err)
           }
+
+          if (callback) {
+            return res.send(callback + '(' + JSON.parse(data) + ')')
+          }
+
+          res.json(JSON.parse(data))
         })
       }
     }
