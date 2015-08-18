@@ -1,5 +1,6 @@
 var request = require('request')
 var csv = require('csv')
+var detect = require('detect-csv')
 
 /**
  * model for interacting with a CKAN service API
@@ -113,6 +114,9 @@ function CkanModel (koop) {
               for (var i = 0; i < result.resources.length; i++) {
                 if (result.resources[i].format === 'CSV') {
                   item_url = host + self.ckan_dump_path + '/' + result.resources[i].id
+                }else if(result.resources[i].format == 'ICMS'){
+                    // It's working but not sure how to improve it
+                    item_url = result.resources[i].url+".csv";
                 }
               }
               if (item_url) {
@@ -123,8 +127,8 @@ function CkanModel (koop) {
                   if (notOk) {
                     return callback(new Error('Unable to retrieve data from ' + item_url + ' (' + data.statusCode + ')'))
                   }
-
-                  csv.parse(res, function (err, csv_data) {
+                  var guess = detect(res);
+                  csv.parse(res, {delimiter: guess.delimiter}, function (err, csv_data) {
                     if (err) return callback(err)
 
                     koop.GeoJSON.fromCSV(csv_data, function (err, geojson) {
