@@ -114,7 +114,7 @@ function CkanModel (koop) {
               for (var i = 0; i < result.resources.length; i++) {
                 if (result.resources[i].format === 'CSV') {
                   item_url = host + self.ckan_dump_path + '/' + result.resources[i].id
-                }else if( result.resources[i].format === 'ICMS' ) {
+                } else if (result.resources[i].format === 'ICMS') {
                   // It's working but not sure how to improve it
                   item_url = result.resources[i].url + '.csv'
                 }
