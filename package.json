@@ -10,7 +10,8 @@
     "csv": "~0.4.0",
     "ejs": "~1.0.0",
     "request": "^2.51.0",
-    "sphericalmercator": "~1.0.2"
+    "sphericalmercator": "~1.0.2",
+    "detect-csv": "^1.1.0"
   },
   "devDependencies": {
     "koop": "^2.0.0",
