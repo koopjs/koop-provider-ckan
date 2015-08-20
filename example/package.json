@@ -1,0 +1,16 @@
+{
+  "name": "koop-ckan-example",
+  "description": "Koop CKAN example server",
+  "version": "1.0.0",
+  "dependencies": {
+    "express": "^4.12.4",
+    "koop": "^2.6.2"
+  },
+  "license": "ISC",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
