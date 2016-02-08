@@ -1,8 +1,14 @@
+var pkg = require('./package')
 
-exports.name = 'ckan';
-// tells koop that this provider uses host registration
-exports.hosts = true;
+var provider = {
+  name: 'ckan',
+  hosts: true,
+  controller: require('./controller'),
+  routes: require('./routes'),
+  model: require('./model'),
+  status: {
+    version: pkg.version
+  }
+}
 
-exports.controller = require('./controller');
-exports.routes = require('./routes');
-exports.model = require('./models/ckan.js');
+module.exports = provider

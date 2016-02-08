@@ -1,40 +1,58 @@
-## CKAN Provider for [Koop](https://github.com/Esri/koop)
------------
+# koop-ckan
 
-This provider makes it possible to access [ckan's JSON API]() as either GeoJSON or an Esri FeatureService. This is particular useful for making maps and doing analysis on the web.
+> CKAN Provider for [Koop](https://github.com/koopjs/koop)
 
-## Installation
+[![npm version][npm-img]][npm-url]
+[![build status][travis-img]][travis-url]
 
-To install/use this provider you first need a working installation of [Koop](https://github.com/Esri/koop). Then from within the koop directory you'll need to run the following:
+[npm-img]: https://img.shields.io/npm/v/koop-ckan.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/koop-ckan
+[travis-img]: https://img.shields.io/travis/koopjs/koop-ckan.svg?style=flat-square
+[travis-url]: https://travis-ci.org/koopjs/koop-ckan
 
-  ```
-    npm install https://github.com/chelm/koop-ckan/tarball/master
-  ```
+## Install
 
-## Register CKAN Hosts
+To use this provider you first need a working installation of [Koop](https://github.com/koopjs/koop). Then from within the koop directory you'll need to run the following:
 
-Once this provider's been installed you need to "register" an instance of CKAN with your Koop instance. To do this you make `POST` request to the `/ckan` endpoint like so: 
+```
+npm install koop-ckan --save
+```
 
-  ```
-    curl --data "host=https://catalog.data.gov&id=datagov" localhost:1337/ckan
-  ```
+## Usage
 
-What you'll need for that request to work is an ID and a the URL of the ckan instance. The ID is what you'll use to reference datasets that come from ckan in Koop. 
+### Registering CKAN Hosts
 
-To make sure this works you can visit: http://localhost:1337/ckan and you should see all of the register hosts. 
+Once this provider's been installed you need to register a particular instance of CKAN with your Koop instance. To do this you need to make a `POST` request to the `/ckan` endpoint like so:
 
-## Access CKAN Data
+```
+curl --data "host=https://data.nola.gov&id=nola" localhost:1337/ckan
+```
 
-To access a dataset hosted in CKAN you'll need a "dataset id" from CKAN which could be referenced in Koop like so: 
+*For Windows users, download cURL from http://curl.haxx.se/download.html or use a tool of your choice to generate the POST request.*
+
+What you'll need for that request to work is an ID for koop to use as a reference and the URL of the CKAN instance. The ID is what you'll use to reference datasets that come from CKAN in Koop.
+
+To make sure this works you can visit `http://localhost:1337/ckan` and you should see all of the registered hosts.
+
+### Access CKAN Data
+
+To access a dataset hosted in CKAN you'll need a "dataset id" from CKAN which could be referenced in Koop like so:
 
 [http://koop.dc.esri.com/ckan/rwlabs/ourairports-ind](http://koop.dc.esri.com/ckan/rwlabs/ourairports-ind)
 
+### Examples
 
-## Examples 
+Here's a few examples of data hosted in CKAN and accessed via Koop
 
-Here's a few examples of data hosted in ckan and accessed via Koop
+* GeoJSON: http://koop.dc.esri.com/ckan/rwlabs/ourairports-ind
+* FeatureService: http://koop.dc.esri.com/ckan/rwlabs/ourairports-ind/FeatureServer/0
+* KML: http://koop.dc.esri.com/ckan/rwlabs/ourairports-ind.kml
+* All of the publicly registered ckan instances: http://koop.dc.esri.com/ckan
 
-* GeoJSON [http://koop.dc.esri.com/ckan/rwlabs/ourairports-ind](http://koop.dc.esri.com/ckan/rwlabs/ourairports-ind)
-* FeatureService [http://koop.dc.esri.com/ckan/rwlabs/ourairports-ind/FeatureServer/0]
-* KML [http://koop.dc.esri.com/ckan/rwlabs/ourairports-ind.kml]
-* All of the publicly registered ckan instances [http://koop.dc.esri.com/ckan](http://koop.dc.esri.com/ckan)
+## Contributing
+
+Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/Esri/contributing).
+
+## License
+
+[Apache 2.0](LICENSE)
