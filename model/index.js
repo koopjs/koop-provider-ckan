@@ -108,30 +108,30 @@ function CkanModel (koop) {
 
           try {
             var result = JSON.parse(response).result
-            var item_url
+            var itemUrl
 
             if (result) {
               for (var i = 0; i < result.resources.length; i++) {
                 if (result.resources[i].format === 'CSV') {
-                  item_url = host + self.ckan_dump_path + '/' + result.resources[i].id
+                  itemUrl = host + self.ckan_dump_path + '/' + result.resources[i].id
                 } else if (result.resources[i].format === 'ICMS') {
                   // It's working but not sure how to improve it
-                  item_url = result.resources[i].url + '.csv'
+                  itemUrl = result.resources[i].url + '.csv'
                 }
               }
-              if (item_url) {
-                request.get(item_url, function (err, data, res) {
+              if (itemUrl) {
+                request.get(itemUrl, function (err, data, res) {
                   if (err) return callback(err)
 
                   var notOk = data && data.statusCode !== 200
                   if (notOk) {
-                    return callback(new Error('Unable to retrieve data from ' + item_url + ' (' + data.statusCode + ')'))
+                    return callback(new Error('Unable to retrieve data from ' + itemUrl + ' (' + data.statusCode + ')'))
                   }
                   var guess = detect(res)
-                  csv.parse(res, {delimiter: guess.delimiter}, function (err, csv_data) {
+                  csv.parse(res, {delimiter: guess.delimiter}, function (err, csvData) {
                     if (err) return callback(err)
 
-                    koop.GeoJSON.fromCSV(csv_data, function (err, geojson) {
+                    koop.GeoJSON.fromCSV(csvData, function (err, geojson) {
                       if (err) return callback(err)
 
                       geojson.updated_at = Date.now()
@@ -155,7 +155,7 @@ function CkanModel (koop) {
             } else {
               callback(new Error('no CSV resources found'))
             }
-          } catch(e) {
+          } catch (e) {
             callback(new Error('Resource not found'))
           }
         })
@@ -163,7 +163,6 @@ function CkanModel (koop) {
         callback(null, entry)
       }
     })
-
   }
 
   //

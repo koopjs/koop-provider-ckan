@@ -3,7 +3,8 @@ var merc = new SM({ size: 256 })
 var fs = require('fs')
 var crypto = require('crypto')
 var ejs = require('ejs')
-var templatePath = require.resolve(__dirname + '/../views/demo.ejs')
+var path = require('path')
+var templatePath = require.resolve(path.join(__dirname, '/../views/demo.ejs'))
 var template = fs.readFileSync(templatePath).toString()
 
 /**
@@ -274,7 +275,6 @@ function CkanController (ckan, BaseController) {
     } else {
       _sendImmediate(file)
     }
-
   }
 
   /**
@@ -312,7 +312,6 @@ function CkanController (ckan, BaseController) {
             res.sendfile(file)
           })
         })
-
       })
     }
   }
