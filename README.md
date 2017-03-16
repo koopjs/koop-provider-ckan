@@ -1,5 +1,7 @@
 # koop-ckan
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/koopjs/koop-provider-ckan.svg)](https://greenkeeper.io/)
+
 > CKAN Provider for [Koop](https://github.com/koopjs/koop)
 
 [![npm version][npm-img]][npm-url]
