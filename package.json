@@ -14,7 +14,7 @@
     "detect-csv": "^1.1.0"
   },
   "devDependencies": {
-    "koop": "~2",
+    "koop": "~3.5.1",
     "standard": "^9.0.1",
     "supertest": "~3.0.0",
     "tap-spec": "^4.0.2",
