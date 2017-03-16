@@ -7,16 +7,16 @@
     "url": "https://github.com/koopjs/koop-ckan/issues"
   },
   "dependencies": {
-    "csv": "~0.4.0",
-    "ejs": "~1.0.0",
+    "csv": "~1.1.1",
+    "ejs": "~2.5.6",
     "request": "^2.51.0",
-    "sphericalmercator": "~1.0.2",
+    "@mapbox/sphericalmercator": "~1.0.2",
     "detect-csv": "^1.1.0"
   },
   "devDependencies": {
-    "koop": "^2.0.0",
-    "standard": "^5.0.2",
-    "supertest": "~0.11.0",
+    "koop": "~2",
+    "standard": "^9.0.1",
+    "supertest": "~3.0.0",
     "tap-spec": "^4.0.2",
     "tape": "^4.0.3"
   },

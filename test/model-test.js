@@ -1,9 +1,10 @@
 var test = require('tape')
 var koop = require('koop/lib')
 var Model = require('../model')
+var path = require('path')
 
 koop.config = {
-  data_dir: __dirname + '/output/'
+  data_dir: path.join(__dirname, '/output/')
 }
 
 koop.log = new koop.Logger({logfile: './test.log'})
