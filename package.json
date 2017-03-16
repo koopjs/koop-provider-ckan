@@ -20,6 +20,9 @@
     "tap-spec": "^4.0.2",
     "tape": "^4.0.3"
   },
+    "greenkeeper": {
+    "ignore": ["koop"]
+  },
   "homepage": "https://github.com/koopjs/koop-ckan",
   "keywords": [
     "arcgis",
