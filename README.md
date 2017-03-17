@@ -1,16 +1,10 @@
 # koop-ckan
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/koopjs/koop-provider-ckan.svg)](https://greenkeeper.io/)
-
 > CKAN Provider for [Koop](https://github.com/koopjs/koop)
 
 [![npm version][npm-img]][npm-url]
 [![build status][travis-img]][travis-url]
-
-[npm-img]: https://img.shields.io/npm/v/koop-ckan.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/koop-ckan
-[travis-img]: https://img.shields.io/travis/koopjs/koop-ckan.svg?style=flat-square
-[travis-url]: https://travis-ci.org/koopjs/koop-ckan
+[![Greenkeeper badge][gk-img]][gk-url]
 
 ## Install
 
@@ -58,3 +52,10 @@ Esri welcomes contributions from anyone and everyone. Please see our [guidelines
 ## License
 
 [Apache 2.0](LICENSE)
+
+[npm-img]: https://img.shields.io/npm/v/koop-ckan.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/koop-ckan
+[travis-img]: https://img.shields.io/travis/koopjs/koop-provider-ckan.svg?style=flat-square
+[travis-url]: https://travis-ci.org/koopjs/koop-provider-ckan
+[gk-img]: https://badges.greenkeeper.io/koopjs/koop-provider-ckan.svg
+[gk-url]: https://greenkeeper.io/
