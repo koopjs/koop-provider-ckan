@@ -7,7 +7,7 @@
     "url": "https://github.com/koopjs/koop-ckan/issues"
   },
   "dependencies": {
-    "csv": "~1.2.0",
+    "csv": "~5.0.1",
     "ejs": "~2.5.6",
     "request": "^2.51.0",
     "@mapbox/sphericalmercator": "~1.0.2",
